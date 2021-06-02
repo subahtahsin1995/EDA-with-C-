@@ -1,0 +1,131 @@
+//Tamanna Tahsin
+//Home Work 1
+//CISC 3110
+//EQR6
+//This program reads in names and grades of
+//students and classifies their grades by letter.
+//Along with that, it finds who got the highest
+//grade and finds the average of all grades and
+//standard deviation.
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <fstream>
+using namespace std;
+ifstream infile("students.txt");
+void readdata(string  [], string [], int [], int);
+void lettergrades(string [], string [], int [], int);
+void findhigh(string [], string [], int [], int);
+double findavg(int [], int);
+double finddeviation(int [],double,int);
+int main()
+{
+    int grade[100],n=100;
+    double avg,deviation;
+    string first[100], last[100];
+    readdata(first,last,grade,n);
+    lettergrades(first,last,grade,n);
+    findhigh(first,last,grade,n);
+    avg=findavg(grade,n);
+        cout<<"The average is "<<avg<<endl;
+    deviation=finddeviation(grade,avg,n);
+        cout<<"The standard deviation is "<<deviation<<endl;
+    return 0;
+}
+
+
+//This is a void function which receives 4
+//parameters. It does not send any parameter to
+//the main program. This function reads in data
+//from the input file.
+void readdata(string first[], string last[], int grade[], int n)
+{
+    for(int i=0;i<n;i++)
+    {
+        infile>>first[i]>>last[i]>>grade[i];
+    }
+return;
+}
+
+//This is a void function which receives 4
+//parameters. It does not send anything to
+//the main program. This function classifies
+//the grades in letter grades and prints the
+//students name and their letter grades.
+void lettergrades(string first[],string last[], int grade[], int n)
+{
+    for(int i=0;i<n;i++)
+    {
+        if(grade[i]<=59)
+            cout<<first[i]<<" "<<last[i]<<" "<<"F"<<endl;
+        else
+
+        {
+                if(grade[i]>=90 && grade[i]<=100)
+                    cout<<first[i]<<" "<<last[i]<<" "<<"A"<<endl;
+                if(grade[i]>=80 && grade[i]<90)
+                    cout<<first[i]<<" "<<last[i]<<" "<<"B"<<endl;
+                if(grade[i]>=70 && grade[i]<80)
+                    cout<<first[i]<<" "<<last[i]<<" "<<"C"<<endl;
+                if(grade[i]>=60 && grade[i]<70)
+                    cout<<first[i]<<" "<<last[i]<<" "<<"D"<<endl;
+        }
+    }
+return;
+}
+
+//This is a void function which receives 4
+//parameters. It does not return anything to
+//the main program. This function compares the
+//grades and decides who got the highest grade
+//and prints the student's name and his/her grade.
+void findhigh(string first[], string last[], int grade[], int n)
+{
+    int high=grade[0];
+    int hipos=0;
+    for(int i=0;i<n;i++)
+    {
+        if (grade[i]>high)
+        {
+            high=grade[i];
+            hipos=i;
+            cout<<"The student with highest grade is "<<first[hipos]<<" "
+            <<last[hipos]<<" "<<high<<endl;
+        }
+    }
+return;
+}
+
+//This function receives 2 parameters.
+//The value it returns to the main program
+//is a double. It finds the average of all
+//students grades by adding all the students
+//grades and then dividing it by the total
+//number of students.
+double findavg(int grade[], int n)
+{
+    int sum=0;
+    double avg;
+    for(int i=0;i<n;i++)
+    {
+        sum+=grade[i];
+        avg=(double)sum/n;
+    }
+return avg;
+}
+
+
+//This function receives 3 parameters.
+//The value it returns to the main program
+//is a double. The function calculates the
+//standard deviation.
+double finddeviation(int grade[], double avg, int n)
+{
+    double deviation;
+    findavg(grade,n);
+    for(int i=0;i<n;i++)
+    {
+        deviation= sqrt(((grade[i]-avg)*(grade[i]-avg))/(n-1));
+    }
+return deviation;
+}
